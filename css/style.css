@@ -1,0 +1,88 @@
+body {
+	padding: 0;
+	margin: 0;
+	background: rgb(21, 21, 21);
+	font-family: Helvetica;
+	color: rgb(188, 188, 188);
+}
+.container {
+	position: fixed;
+	width: 99%;
+	height: 100%;
+}
+#container-info {
+	position: relative;
+	display: inline-block;
+	max-width: 250px;
+	width: 20%;
+	height: inherit;
+	background: rgb(30, 30, 30);
+}
+#container-info div:nth-child(1) {
+	height: 60%;
+}
+#container-info .track-info {
+	width: initial;
+	height: 40%;
+}
+#container-info .track-info #cover {
+	width: 100%;
+	margin-bottom: 5px;
+}
+#container-info .track-info .infos {
+	overflow: hidden;
+	white-space: nowrap;
+	display: inline-block;
+	width: 100%;
+	margin-left: 3px;
+	font-size: 14px;
+}
+#container-info .track-info span:last-child {
+	font-size: 13px;
+}
+#container-tracks {
+	position: fixed;
+	display: inline-block;
+	width: 80%;
+	height: inherit;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+#container-tracks ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+#container-tracks ul li {
+	height: 30px;
+	padding: 5px 10px;
+	border-bottom: 1px solid rgb(46, 46, 46);
+	font-size: 14px;
+}
+#container-tracks ul li:hover {
+	background: rgb(38, 38, 38);
+	color: #FFF;
+}
+#container-tracks ul li:hover span:nth-child(1){
+	visibility: visible;
+}
+#container-tracks ul li span:nth-child(1) {
+	display: inline-block;
+	width: 30px;
+	height: inherit;
+	visibility: hidden;
+	margin-right: 15px;
+	background: url('../images/play-shadow.png') no-repeat 0;
+}
+#container-tracks ul li span:nth-child(1):hover {
+	background: url('../images/play.png') no-repeat 0;
+}
+#container-tracks ul li span:nth-child(2) {
+	display: inline-block;
+	height: inherit;
+}
+#container-tracks ul li span:nth-child(2) div {
+	display: table-cell;
+	height: inherit;
+	vertical-align: middle;
+}
