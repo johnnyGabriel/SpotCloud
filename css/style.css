@@ -2,6 +2,7 @@ body {
 	padding: 0;
 	margin: 0;
 	background: rgb(21, 21, 21);
+	/*background: white;*/
 	font-family: Helvetica;
 	color: rgb(188, 188, 188);
 }
@@ -23,13 +24,15 @@ body {
 }
 #container-info .track-info {
 	width: initial;
-	height: 40%;
+	height: 270px;
+	position: relative;
+	bottom: 36px;
 }
 #container-info .track-info #cover {
 	width: 100%;
 	margin-bottom: 5px;
 }
-#container-info .track-info .infos {
+#container-info .track-info span {
 	overflow: hidden;
 	white-space: nowrap;
 	display: inline-block;
@@ -52,6 +55,7 @@ body {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	padding-bottom: 40px;
 }
 #container-tracks ul li {
 	height: 30px;
@@ -64,15 +68,14 @@ body {
 	color: #FFF;
 }
 #container-tracks ul li:hover span:nth-child(1){
-	visibility: visible;
+	background: url('../images/play-shadow.png') no-repeat 0;
 }
 #container-tracks ul li span:nth-child(1) {
 	display: inline-block;
 	width: 30px;
 	height: inherit;
-	visibility: hidden;
 	margin-right: 15px;
-	background: url('../images/play-shadow.png') no-repeat 0;
+	background: url('../images/tick.png') no-repeat 0;
 }
 #container-tracks ul li span:nth-child(1):hover {
 	background: url('../images/play.png') no-repeat 0;
@@ -85,4 +88,79 @@ body {
 	display: table-cell;
 	height: inherit;
 	vertical-align: middle;
+}
+#playerControls {
+	position: fixed;
+	bottom: 0;
+	width: 95%;
+	height: 30px;
+	padding: 5px 25px;
+	border-top: 1px solid rgb(46,46,46);
+	background: rgb(30, 30, 30);
+}
+#playerControls > div {
+	display: inline-block;
+	height: inherit;
+}
+#playerControls .arrow {
+	width: 15px;
+}
+#playerControls .left {
+	background: url('../images/previous-shadow.png') no-repeat 0 / 70%;
+}
+#playerControls .left:hover {
+	background: url('../images/previous.png') no-repeat 0 / 70%;
+}
+#playerControls .right {
+	margin-left: 3px;
+	background: url('../images/next-shadow.png') no-repeat 0 / 70%;
+}
+#playerControls .right:hover {
+	background: url('../images/next.png') no-repeat 0 / 70%;
+}
+#playerControls .playButton {
+	width: 30px;
+	background: url('../images/play-shadow.png') no-repeat 0;
+}
+#playerControls .playButton:hover {
+	background: url('../images/play.png') no-repeat 0;
+}
+#playerControls .volume {
+	width: 135px;
+	margin: 0 3px 0 20px;
+}
+#playerControls .volume > div {
+	display: inline-block;
+	height: inherit;
+}
+#playerControls .volume > div:nth-child(1) {
+	width: 100px;	
+}
+#playerControls .volume > div:nth-child(1) > div {
+	display: table-cell;
+	width: inherit;
+	height: inherit;
+	vertical-align: middle;
+}
+#playerControls .volume > div:nth-child(1) > div > span {
+	display: block;
+	width: 100%;
+	height: 3px;
+	border-radius: 3px;
+	background: grey;
+}
+#playerControls .volume > div:nth-child(1) > div > span > span {
+	display: block;
+	position: relative;
+	top: -5px;
+	left: 90%;
+	width: 13px;
+	height: 13px;
+	background: white;
+	border-radius: 100%;
+}
+#playerControls .volume > div:nth-child(2) {
+	width: 20px;
+	margin-left: 6px;
+	background: url('../images/volume.png') no-repeat 0 /75%;
 }

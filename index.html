@@ -7,21 +7,41 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="//connect.soundcloud.com/sdk.js"></script>
+        <script src="js/ManSC.js" type="text/javascript"></script>
         <script src="js/script.js"></script>
     </head>
     <body>
     	<div class="container">
+
     		<div id="container-info">
 	    		<div></div>
 	    		<div class="track-info">
 	    			<img id="cover" src="images/empty-vinil.png" />
-	    			<span class="infos">Martin Solveig & GTA - Intoxicated</span>
-	    			<span class="infos">martinsolveig</span>
+	    			<span id="trackName"> ... </span>
+	    			<span id="artistName"> ... </span>
 	    		</div>
     		</div>
+
 	        <div id="container-tracks">
 	        	<ul></ul>
 	        </div>
+
+            <div id="playerControls">
+                <div class="arrow left"></div>
+                <div class="playButton"></div>
+                <div class="arrow right"></div>
+                <div class="volume">
+                    <div>
+                        <div>
+                            <span>
+                              <span></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+            
     	</div>
     </body>
 </html>
