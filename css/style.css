@@ -2,31 +2,81 @@ body {
 	padding: 0;
 	margin: 0;
 	background: rgb(21, 21, 21);
-	/*background: white;*/
 	font-family: Helvetica;
-	color: rgb(188, 188, 188);
+	color: rgb(216,216,216);
 }
 .container {
 	position: fixed;
-	width: 99%;
+	width: 100%;
 	height: 100%;
+}
+@media (min-width: 1024px) and (max-width: 1366px) {
+	#container-info {
+		width: 17%;
+	}
+	#container-tracks {
+		width: 83%;
+	}
+	#container-info .track-info span {
+		font-size: 11px;
+	}
+	#container-info .track-info span:last-child {
+		font-size: 11px;
+	}
+	#container-tracks ul li {
+		height: 25px;
+	}
+}
+@media (min-width: 1367px) and (max-width: 1920px) {
+	#container-info {
+		width: 13%;
+	}
+	#container-tracks {
+		width: 87%;
+	}
+	#container-info .track-info span {
+		font-size: 13px;
+	}
+	#container-info .track-info span:last-child {
+		font-size: 12px;
+	}
+	#container-tracks ul li {
+		height: 30px;
+	}
 }
 #container-info {
 	position: relative;
 	display: inline-block;
-	max-width: 250px;
-	width: 20%;
 	height: inherit;
 	background: rgb(30, 30, 30);
 }
-#container-info div:nth-child(1) {
+#container-info .cover-shadow {
+    position: absolute;
+	
+    width: 100%;
+    height: 100%;
+}
+#container-info .cover-shadow img {
+    position: absolute;
+	
+    height: inherit;
+    left: -246.5px;
+    -webkit-filter: blur(4px);
+    opacity: .35;
+}
+#container-info .block-cover-shadow {
+	position: absolute;
+	width: 100%;
+	height: inherit;
+}
+#container-info div:nth-child(3) {
+	position: relative;
 	height: 60%;
 }
 #container-info .track-info {
-	width: initial;
-	height: 270px;
-	position: relative;
-	bottom: 36px;
+	width: 100%;
+	position: absolute;
+	bottom: 53px;
 }
 #container-info .track-info #cover {
 	width: 100%;
@@ -37,48 +87,46 @@ body {
 	white-space: nowrap;
 	display: inline-block;
 	width: 100%;
-	margin-left: 3px;
-	font-size: 14px;
-}
-#container-info .track-info span:last-child {
-	font-size: 13px;
+	margin: 0 0 0px 8px;
+	position: relative;
 }
 #container-tracks {
 	position: fixed;
 	display: inline-block;
-	width: 80%;
-	height: inherit;
+	height: calc(100% - 41px);
 	overflow-x: hidden;
 	overflow-y: scroll;
+	background: rgb(21, 21, 21);
 }
 #container-tracks ul {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	padding-bottom: 40px;
+	/* padding-bottom: 40px; */
 }
 #container-tracks ul li {
-	height: 30px;
 	padding: 5px 10px;
 	border-bottom: 1px solid rgb(46, 46, 46);
-	font-size: 14px;
+	font-size: 13px;
+	background: rgb(21, 21, 21);
 }
 #container-tracks ul li:hover {
 	background: rgb(38, 38, 38);
 	color: #FFF;
 }
 #container-tracks ul li:hover span:nth-child(1){
-	background: url('../images/play-shadow.png') no-repeat 0;
+	background: url('../images/play-shadow.png') no-repeat 0 / contain;
 }
 #container-tracks ul li span:nth-child(1) {
 	display: inline-block;
 	width: 30px;
 	height: inherit;
 	margin-right: 15px;
-	background: url('../images/tick.png') no-repeat 0;
+	background: url('../images/tick.png') no-repeat 0 / contain;
 }
 #container-tracks ul li span:nth-child(1):hover {
-	background: url('../images/play.png') no-repeat 0;
+	background: url('../images/play.png') no-repeat 0 / contain;
+	cursor: pointer;
 }
 #container-tracks ul li span:nth-child(2) {
 	display: inline-block;
@@ -92,48 +140,85 @@ body {
 #playerControls {
 	position: fixed;
 	bottom: 0;
-	width: 95%;
+	width: 99%;
 	height: 30px;
-	padding: 5px 25px;
+	padding: 8px 25px;
 	border-top: 1px solid rgb(46,46,46);
 	background: rgb(30, 30, 30);
 }
 #playerControls > div {
-	display: inline-block;
+	float: left;
 	height: inherit;
 }
 #playerControls .arrow {
 	width: 15px;
+	height: inherit;
+	cursor: pointer;
+}
+#playerControls .controls {
+    height: inherit;
+	
 }
 #playerControls .left {
 	background: url('../images/previous-shadow.png') no-repeat 0 / 70%;
+	float: left;
+	margin-right: 7px;
 }
 #playerControls .left:hover {
 	background: url('../images/previous.png') no-repeat 0 / 70%;
 }
 #playerControls .right {
-	margin-left: 3px;
+	margin-left: 10px;
 	background: url('../images/next-shadow.png') no-repeat 0 / 70%;
+	float: left;
 }
 #playerControls .right:hover {
 	background: url('../images/next.png') no-repeat 0 / 70%;
 }
 #playerControls .playButton {
 	width: 30px;
+	height: inherit;
 	background: url('../images/play-shadow.png') no-repeat 0;
+	float: left;
+	cursor: pointer;
 }
 #playerControls .playButton:hover {
 	background: url('../images/play.png') no-repeat 0;
 }
 #playerControls .volume {
 	width: 135px;
-	margin: 0 3px 0 20px;
+	margin: 0px 3px 0 20px;
+}
+#playerControls .volume .vertical-middle {
+	display: table-cell;
+}
+#playerControls .master {
+	width: 100px;
+	background: #555;
+	height: 3px;
+	border-radius: 3px;
+}
+#playerControls .master div {
+	background: rgb(255, 145, 0);
+}
+#playerControls .master span {
+	background: #FFF;
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	outline: none;
+}
+#playerControls .volume #masterVolume {
+	width: 100px;
+}
+#playerControls .progress #masterProgress {
+	width: 100%;
 }
 #playerControls .volume > div {
-	display: inline-block;
 	height: inherit;
+	float: left;
 }
-#playerControls .volume > div:nth-child(1) {
+/*#playerControls .volume > div:nth-child(1) {
 	width: 100px;	
 }
 #playerControls .volume > div:nth-child(1) > div {
@@ -147,7 +232,7 @@ body {
 	width: 100%;
 	height: 3px;
 	border-radius: 3px;
-	background: grey;
+	background: rgb(255, 145, 0);
 }
 #playerControls .volume > div:nth-child(1) > div > span > span {
 	display: block;
@@ -158,9 +243,49 @@ body {
 	height: 13px;
 	background: white;
 	border-radius: 100%;
-}
+}*/
 #playerControls .volume > div:nth-child(2) {
 	width: 20px;
 	margin-left: 6px;
+	margin-top: 0px;
 	background: url('../images/volume.png') no-repeat 0 /75%;
+}
+#playerControls .progress {
+    width: calc(100% - 300px);
+    margin-left: 0px;
+    margin-top: 13px;
+}
+#playerControls .progress .bar {
+	display: inline-block;
+	height: inherit;
+	width: calc(100% - 125px);
+}
+#playerControls .progress span.time {
+
+    display: inline-block;
+
+    width: 40px;
+    
+    
+
+    /* background: gray; */
+
+    font-size: 12px;
+
+    vertical-align: top;
+
+    margin: 0px 5px 0 10px;
+
+    /* padding: 7px 0 0 0; */
+
+    top: -5px;
+
+    position: relative;
+
+}
+.vertical-middle {
+	display: inline-block;
+	vertical-align: middle;
+	height: inherit;
+	width: 100%;
 }
