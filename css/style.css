@@ -69,9 +69,43 @@ body {
 	width: 100%;
 	height: inherit;
 }
-#container-info div:nth-child(3) {
+#container-info .playlists {
 	position: relative;
 	height: 60%;
+}
+#container-info .playlists h2 {
+    font-size: 12px;
+	
+    padding-left: 5px;
+}
+#container-info .playlists ul {
+
+    list-style-type: none;
+    
+
+    margin: 0px 0;
+    
+
+    padding: 0 15px;
+
+}
+#container-info .playlists ul:before {
+	content: attr(aria-label);
+    display: inline-block;
+    
+	/* background: rgb(0, 0, 0); */
+    
+	width: calc(100% - 10px);
+    
+	padding: 2px 0px;
+    font-size: 13px;
+	cursor: pointer;
+}
+#container-info .playlists ul li {
+    font-size: 12px;
+	
+    padding: 2px 0 2px 10px;
+    cursor: pointer;
 }
 #container-info .track-info {
 	width: 100%;

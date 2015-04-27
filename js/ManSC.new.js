@@ -3,6 +3,11 @@ var ManSC = function(clientID, opts) {
 	var client_ID = null,
 		elements = {},
 		soundMan = null,
+		currentTrack = null,
+		currentPlaylist = null,
+		viewedPlaylist = null,
+		queue = null,
+		timers = {},
 		coverSize = "t200x200";
 
 	function manSC() {
@@ -12,13 +17,27 @@ var ManSC = function(clientID, opts) {
 			client_ID = clientID;
 
 			SC.initialize({
-				client_id: "b2c09660b859d9f40dc3eb3106c74cd3"
+				client_id: client_ID
 			});
 
 		}
 
-		if (opts)
+		if (opts) {
 			elements = opts;
+		}
+
+	}
+
+	function getVolume() {
+		return elements.volume.slider('option', 'value');
+	}
+
+	function setVolume(vol) {
+
+		//verifica se o objeto de som foi iniciado
+		if (soundMan) {
+			soundMan.setVolume(vol);
+		}
 
 	}
 
@@ -31,13 +50,13 @@ var ManSC = function(clientID, opts) {
 
 	}
 
-	function updateTime() {
+	function trackTimer() {
 
 		var currentTime, currentSec, currentMin, currentHr, currentTimeFormated;
 
-		currentPosTimer = setInterval(function() {
+		return setInterval(function() {
 
-			currenTime = soundMan.position;
+			currentTime = soundMan.position;
 			currentSec = Math.floor((currentTime / 1000) % 60);
 			currentMin = Math.floor((currentTime / 60000) % 60);
 			currentHr = Math.floor((currentTime / 3600000) % 60);
@@ -49,14 +68,14 @@ var ManSC = function(clientID, opts) {
 	}
 
 	function formatTwoNumbers(_num) {
-        return (_num.toString().length == 1 ? "0" + _num : _num);
+        return (_num.toString().length === 1 ? "0" + _num : _num);
     }
 
 	function calcTrackEstimatedDuration() {
 
 		var duration, durationSec, durationMin, durationHrs, durationFormated;
 
-		estimatedDurTimer = setInterval(function() {
+		return setInterval(function() {
 
 			duration = soundMan.durationEstimate;
 			durationSec = Math.floor((duration / 1000) % 60);
@@ -73,7 +92,12 @@ var ManSC = function(clientID, opts) {
 
 		var promise = $.Deferred();
 
-		manSC = SC.stream(_id, {
+		if (viewedPlaylist.title !== currentPlaylist.title) {
+			currentPlaylist = viewedPlaylist;
+			viewedPlaylist = null;
+		}
+
+		soundMan = SC.stream(_id, {
 
 				autoPlay: true,
 				volume: getVolume(),
@@ -90,23 +114,67 @@ var ManSC = function(clientID, opts) {
 
 				//atualiza a variavel com objeto da track atual
 				currentTrack = currentPlaylist.tracks.filter(function(el, i) {
-					if (el.id == _id) {
+					if (el.id === _id) {
 						index = i;
 						return el;
 					}
 				})[0];
 
-				//atualiza a posição 'index' da track atual na playlist atual
+				//seta o indice da track tocando na playlist
 				currentPlaylist.index = index;
 
 				//chama a função para escrever na tela as informações da track
 				writeTrackInfoOnScreen();
 
-			}
-		)
+				//inicia o timer de contagem de tempo
+				timers.trackTime = trackTimer();
 
-	}
+				//inicia o timer de contagem de duraça da track
+				timers.trackDuration = calcTrackEstimatedDuration();
+
+			}
+		);
+
+	};
+
+	manSC.prototype.getPlaylist = function(_playlistId) {
+
+		var promise = $.Deferred();
+
+        SC.get("/playlists/"+ _playlistId, function(data) {
+
+        	promise.resolve(data);
+
+        	viewedPlaylist = data;
+
+        });
+
+        return promise;
+
+	};
+
+	manSC.prototype.showInPlaylistPanel = function(data) {
+
+		var html = '';
+
+        $.each(data, function(index, val) {
+
+            html += "<li rel='" + val.id + "'>" +
+                        "<span></span>" +
+                        "<span>" +
+                            "<div>" + val.title + "</div>" +
+                        "</span>" +
+                    "</li>";
+
+        });
+
+        elements.playlist.html(html);
+
+        viewedPlaylist.tracks = data;
+
+
+	};
 
 	return new manSC();
 
-}
+};

@@ -1,4 +1,27 @@
+/*global ManSC, User*/
+
 $(function() {
+
+    /*
+    ------------------------------------
+    FUNCTIONS 
+    ------------------------------------
+    */
+
+    //calcula a posição da cover de fundo
+    function posBackgroundCover() {
+
+        var pos = ($(window).height() / 2) - ($('.cover-shadow').width() / 2);
+        $('.cover-shadow').find('img').css('left', -pos);
+
+    }
+
+
+    /*
+    -----------------------------------
+    ONLOAD
+    -----------------------------------
+    */
 
     //cria o slider de volume
 	$("#masterVolume").slider({
@@ -18,22 +41,7 @@ $(function() {
         step: 0.1
     });
 
-    //eventos dos sliders
-    $('#masterVolume').on('slide', function() {
-
-        var vol = $(this).slider('option', 'value');
-        ManSC.setVolume(vol);
-
-    });
-
-    $('#masterProgress').on('slide', function() {
-
-    	var seconds = ManSC.sound.durationEstimate * $(this).slider('option', 'value') / 100;
-    	ManSC.setTime(seconds);
-
-    });
-
-    //inicialização do controlador da api soundcloud
+    /*//inicialização do controlador da api soundcloud
 	ManSC.init({
         play: $('.playButton'),
 		playlist: $('#container-tracks').find('ul'),
@@ -41,64 +49,130 @@ $(function() {
 		coverShadow: $('.cover-shadow').find('img'),
 		name: $('#trackName'),
 		artist: $('#artistName'),
-		volume: $('#masterVolume').find('span'),
+		volume: $('#masterVolume'),
 		timeBar: $('#masterProgress'),
 		timeCurrent: $('#currentPosition'),
 		timeTotal: $('#totalPosition')
-	});
+	});*/
 
-	//obter playlist
-	ManSC.getPlaylist(80472526);
+	/*//obtém uma playlist
+	ManSC.getPlaylist(80472526);*/
+
+    var options = {
+        play: $('.playButton'),
+        playlist: $('#container-tracks').find('ul'),
+        cover: $('#cover'),
+        coverShadow: $('.cover-shadow').find('img'),
+        name: $('#trackName'),
+        artist: $('#artistName'),
+        volume: $('#masterVolume'),
+        timeBar: $('#masterProgress'),
+        timeCurrent: $('#currentPosition'),
+        timeTotal: $('#totalPosition')
+    };
+
+    var manSC = new ManSC("b2c09660b859d9f40dc3eb3106c74cd3", options);
 
     //cria uma nova instancia do objeto 'User'
     var user = new User('56382936');
 
+    //preenche a lista de playlists
+    user.getPlaylists().done(function(data) {
+
+        console.log(data);
+
+        var html = "";
+
+        $.each(data, function(index, val) {
+
+            html += "<li data-id='"+ val.id +"'>"+
+                        val.title+
+                    "</li>";
+
+        });
+
+        $('#playlists').html(html);
+
+    });
+
+    //posiciona a cover de fundo
     posBackgroundCover();
+
+
+
+    /*
+    -----------------------------
+    EVENTS
+    -----------------------------
+    */
+
+    //evento slider do volume
+    $('#masterVolume').on('slide', function() {
+
+        var vol = $(this).slider('option', 'value');
+        manSC.setVolume(vol);
+
+    });
+
+    //evento slider da barra de progresso 
+    $('#masterProgress').on('slide', function() {
+
+        var seconds = manSC.sound.durationEstimate * $(this).slider('option', 'value') / 100;
+        manSC.setTime(seconds);
+
+    });
 
 	//evento de click em uma track da playlist
 	$('#container-tracks').on('click', 'span:nth-child(1)', function() {
-		ManSC.play($(this).parent().attr('rel'));
+
+		manSC.play($(this).parent().attr('rel'));
+
 	});
 
     //evento de click do botão play
     $('.playButton').on('click', function() {
-        ManSC.play();
+
+        manSC.play();
+
     });
 
     //evento de click do botão próxima
     $('.right').on('click', function() {
-        ManSC.next();
+
+        manSC.next();
+
     });
     
     //evento de click do botão anterior
     $('.left').on('click', function() {
-        ManSC.prev();
+
+        manSC.prev();
+
     });
 
+    //evento de click da playlist 'likes'
+    $('#likes').on('click', function() {
 
-    $('#likes').on('click', 'li', function() {
-        user.getLikes(50).done(function(data) {
-            ManSC.insertInList(data);
+        user.getLikes(200).done(function(data) {
+            manSC.showInPlaylistPanel(data);
         });
+
     });
 
+    //evento de click em uma playlist do menu 'playlists'
     $('#playlists').on('click', 'li', function() {
+
         var id = $(this).attr('data-id');
-        ManSC.getPlaylist(id);
+        manSC.getPlaylist(id);
+
     });
 
+    //evento de resize da tela
     $(window).resize(function() {
         
+        //ajusta a posição da cover de fund sempre que acontece o resize da tela
         posBackgroundCover();
 
     });
-
-    function posBackgroundCover() {
-
-        //calcula o valor da posição da cover de fundo sempre que acontece um resize da tela
-        var pos = ($(window).height() / 2) - ($('.cover-shadow').width() / 2);
-        $('.cover-shadow').find('img').css('left', -pos);
-
-    }
     
 });
