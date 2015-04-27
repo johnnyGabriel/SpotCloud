@@ -34,6 +34,20 @@ var User = function(_id) {
 
     };
 
+    user.prototype.getPlaylist = function(_playlistId) {
+
+        var promise = $.Deferred();
+
+        SC.get("/playlists/"+ _playlistId, function(data) {
+
+            promise.resolve(data);
+
+        });
+
+        return promise;
+
+    };
+
     user.prototype.getLikes = function(_limit) {
 
         var promise = $.Deferred(),

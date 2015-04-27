@@ -5,6 +5,30 @@ body {
 	font-family: Helvetica;
 	color: rgb(216,216,216);
 }
+.checked {
+	background: url('../images/tick.png') no-repeat 0 / contain;
+}
+.selected {
+	background: rgb(38, 38, 38);
+	color: #FFF;
+}
+/*.selected:hover span:first-child {
+	background: url('../images/play-shadow.png') no-repeat 0 / contain;
+}*/
+.play {
+	background: url('../images/play-shadow.png') no-repeat 0 / contain;
+}
+.play:hover {
+	cursor: pointer;
+	background: url('../images/play.png') no-repeat 0 / contain;
+}
+.pause {
+	background: url('../images/pause-shadow.png') no-repeat 0 / contain;
+}
+.pause:hover {
+	cursor: pointer;
+	background: url('../images/pause.png') no-repeat 0 / contain;
+}
 .container {
 	position: fixed;
 	width: 100%;
@@ -142,23 +166,22 @@ body {
 	padding: 5px 10px;
 	border-bottom: 1px solid rgb(46, 46, 46);
 	font-size: 13px;
-	background: rgb(21, 21, 21);
+	/*background: rgb(21, 21, 21);*/
 }
 #container-tracks ul li:hover {
 	background: rgb(38, 38, 38);
 	color: #FFF;
 }
-#container-tracks ul li:hover span:nth-child(1){
+/*#container-tracks ul li:hover span:nth-child(1){
 	background: url('../images/play-shadow.png') no-repeat 0 / contain;
-}
+}*/
 #container-tracks ul li span:nth-child(1) {
 	display: inline-block;
 	width: 30px;
 	height: inherit;
 	margin-right: 15px;
-	background: url('../images/tick.png') no-repeat 0 / contain;
 }
-#container-tracks ul li span:nth-child(1):hover {
+#container-tracks ul li:hover span:nth-child(1):hover {
 	background: url('../images/play.png') no-repeat 0 / contain;
 	cursor: pointer;
 }
@@ -209,15 +232,11 @@ body {
 #playerControls .right:hover {
 	background: url('../images/next.png') no-repeat 0 / 70%;
 }
-#playerControls .playButton {
+#playerControls .button {
+	float: left;
 	width: 30px;
 	height: inherit;
-	background: url('../images/play-shadow.png') no-repeat 0;
-	float: left;
 	cursor: pointer;
-}
-#playerControls .playButton:hover {
-	background: url('../images/play.png') no-repeat 0;
 }
 #playerControls .volume {
 	width: 135px;

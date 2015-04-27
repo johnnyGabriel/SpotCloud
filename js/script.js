@@ -16,6 +16,23 @@ $(function() {
 
     }
 
+    function changePlayState(elem) {
+
+        if (elem.hasClass('play')) {
+
+            $('.play').removeClass('play', function() {
+                $(this).addClass('pause');
+            });
+
+        } else if (elem.hasClass('pause')) {
+
+            $('.pause').removeClass('pause', function() {
+                $(this).addClass('play');
+            });
+        }
+
+    }
+
 
     /*
     -----------------------------------
@@ -68,7 +85,7 @@ $(function() {
         volume: $('#masterVolume'),
         timeBar: $('#masterProgress'),
         timeCurrent: $('#currentPosition'),
-        timeTotal: $('#totalPosition')
+        duration: $('#totalPosition')
     };
 
     var manSC = new ManSC("b2c09660b859d9f40dc3eb3106c74cd3", options);
@@ -78,8 +95,6 @@ $(function() {
 
     //preenche a lista de playlists
     user.getPlaylists().done(function(data) {
-
-        console.log(data);
 
         var html = "";
 
@@ -117,22 +132,36 @@ $(function() {
     //evento slider da barra de progresso 
     $('#masterProgress').on('slide', function() {
 
-        var seconds = manSC.sound.durationEstimate * $(this).slider('option', 'value') / 100;
-        manSC.setTime(seconds);
+        var seconds = manSC.getDuration() * $(this).slider('option', 'value') / 100;
+        manSC.setPosition(seconds);
 
     });
 
 	//evento de click em uma track da playlist
 	$('#container-tracks').on('click', 'span:nth-child(1)', function() {
 
-		manSC.play($(this).parent().attr('rel'));
+        // changePlayState($(this));
+		manSC.play(parseInt($(this).parent().attr('rel')));
 
 	});
 
-    //evento de click do botão play
-    $('.playButton').on('click', function() {
 
-        manSC.play();
+    $('#container-tracks').on('mouseenter', 'li', function() {
+
+        $(this).find('span').first().addClass('play');
+
+    })
+    .on('mouseleave', 'li', function() {
+
+        $(this).find('span').first().removeClass('play');
+
+    });
+
+    //evento de click do botão play
+    $('.play').on('click', function() {
+
+        changePlayState($(this));
+        manSC.playToggle();
 
     });
 
@@ -146,7 +175,7 @@ $(function() {
     //evento de click do botão anterior
     $('.left').on('click', function() {
 
-        manSC.prev();
+        manSC.previous();
 
     });
 
@@ -154,7 +183,9 @@ $(function() {
     $('#likes').on('click', function() {
 
         user.getLikes(200).done(function(data) {
-            manSC.showInPlaylistPanel(data);
+
+            manSC.showInPlaylistPanel('Likes', data);
+            
         });
 
     });
@@ -163,7 +194,11 @@ $(function() {
     $('#playlists').on('click', 'li', function() {
 
         var id = $(this).attr('data-id');
-        manSC.getPlaylist(id);
+        user.getPlaylist(id).done(function(data) {
+
+            manSC.showInPlaylistPanel(data.title, data.tracks);
+
+        });
 
     });
 
