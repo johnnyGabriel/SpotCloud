@@ -95,15 +95,11 @@ var ManSC = function(clientID, opts) {
 			elements.duration.text(durationFormated);
 		}
 
-		setInterval(function() {
-			calcDuration();
-		}, 500);	
-
 		return setInterval(function() {
 
 			calcDuration();
 
-		}, 5000);
+		}, 1000);
 
 
 	}
@@ -133,8 +129,6 @@ var ManSC = function(clientID, opts) {
 				volume: getVolume(),
 				onfinish: function() {
 
-					$("[rel='"+ _id +"']").removeClass('selected');
-					$("[rel='"+ _id +"']").find('span').first().removeClass('play');
 					publicFunctions.next();
 					promise.resolve();
 
@@ -146,10 +140,24 @@ var ManSC = function(clientID, opts) {
 
 			}, function(data) {
 
+				//armazena o indice da track atual
 				var index = "";
 
 				//seta o objeto controlador de som
 				soundMan = data;
+
+				//retira o foco do item da lista gráfica da track anterior
+				if (currentTrack) {
+					var oldElement = $("[rel='"+ currentTrack.id +"']");
+					oldElement.removeClass('selected');
+					oldElement.children('span').first().removeClass('pause').removeClass('play-paused');
+				}
+
+				//coloca o foco no item da lista gráfica da track atual
+				var newElement = $("[rel='"+ _id +"']");
+				newElement.addClass('selected');
+				newElement.children('span').first().addClass('pause');
+
 
 				//atualiza a variavel com objeto da track atual
 				currentTrack = currentPlaylist.tracks.filter(function(el, i) {
@@ -162,16 +170,13 @@ var ManSC = function(clientID, opts) {
 				//seta o indice da track tocando na playlist
 				currentPlaylist.index = index;
 
-				$("[rel='"+ _id +"']").addClass('selected');
-				$("[rel='"+ _id +"']").find('span').first().removeClass('pause').addClass('play');
-
 				//chama a função para escrever na tela as informações da track
 				writeTrackInfoOnScreen();
 
 				//inicia o timer de contagem de tempo
 				timers.trackTime = trackTimer();
 
-				//inicia o timer de contagem de duraça da track
+				//inicia o timer de contagem de duração da track
 				timers.trackDuration = calcTrackEstimatedDuration();
 
 			}
@@ -183,16 +188,7 @@ var ManSC = function(clientID, opts) {
 
 		if (soundMan) {
 
-			// return soundMan.paused ? soundMan.resume() : soundMan.pause();
-
-			if (soundMan.paused) {
-				$("[rel='"+ currentTrack.id +"']").find('span').first().removeClass('pause').addClass('play');
-				soundMan.resume();
-			}
-			else {
-				$("[rel='"+ currentTrack.id +"']").find('span').first().removeClass('play').addClass('pause');
-				soundMan.pause();
-			}
+			return soundMan.paused ? soundMan.resume() : soundMan.pause();
 
 		}
 
@@ -223,14 +219,6 @@ var ManSC = function(clientID, opts) {
 	manSC.prototype.setPosition = function(seconds) {
 
 		if (soundMan) {
-
-			/*if (!seconds) {
-	            seconds = this.getTime();
-	        }*/
-
-	        // var sec = Math.floor((seconds / 1000) % 60),
-	        // 	min = Math.floor((seconds / 60000) % 60),
-	        // 	pos = seconds * 100 / soundMan.durationEstimate;
 
 	        soundMan.setPosition(seconds);
 
@@ -272,7 +260,11 @@ var ManSC = function(clientID, opts) {
 
 	manSC.prototype.getDuration = function() {
 
-		return soundMan.durationEstimate;
+		if (soundMan) {
+
+			return soundMan.durationEstimate;
+			
+		}
 
 	};
 

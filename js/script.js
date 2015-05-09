@@ -3,9 +3,9 @@
 $(function() {
 
     /*
-    ------------------------------------
+    ---------------------------------------------------------------------
     FUNCTIONS 
-    ------------------------------------
+    ---------------------------------------------------------------------
     */
 
     //calcula a posição da cover de fundo
@@ -16,31 +16,13 @@ $(function() {
 
     }
 
-    function changePlayState(elem) {
-
-        if (elem.hasClass('play')) {
-
-            $('.play').removeClass('play', function() {
-                $(this).addClass('pause');
-            });
-
-        } else if (elem.hasClass('pause')) {
-
-            $('.pause').removeClass('pause', function() {
-                $(this).addClass('play');
-            });
-        }
-
-    }
-
-
     /*
-    -----------------------------------
+    ---------------------------------------------------------------------
     ONLOAD
-    -----------------------------------
+    ---------------------------------------------------------------------
     */
 
-    //cria o slider de volume
+    //inicializa o slider de volume
 	$("#masterVolume").slider({
         value: 50,
         orientation: "horizontal",
@@ -49,7 +31,7 @@ $(function() {
         step: 1
     });
 
-    //cria o slider de progresso
+    //inicializa o slider de progresso
     $("#masterProgress").slider({
         value: 0,
         orientation: "horizontal",
@@ -58,23 +40,8 @@ $(function() {
         step: 0.1
     });
 
-    /*//inicialização do controlador da api soundcloud
-	ManSC.init({
-        play: $('.playButton'),
-		playlist: $('#container-tracks').find('ul'),
-		cover: $('#cover'),
-		coverShadow: $('.cover-shadow').find('img'),
-		name: $('#trackName'),
-		artist: $('#artistName'),
-		volume: $('#masterVolume'),
-		timeBar: $('#masterProgress'),
-		timeCurrent: $('#currentPosition'),
-		timeTotal: $('#totalPosition')
-	});*/
 
-	/*//obtém uma playlist
-	ManSC.getPlaylist(80472526);*/
-
+    //parâmetro da classe manSC
     var options = {
         play: $('.playButton'),
         playlist: $('#container-tracks').find('ul'),
@@ -88,6 +55,7 @@ $(function() {
         duration: $('#totalPosition')
     };
 
+    //cria nova instancia da classe manSC
     var manSC = new ManSC("b2c09660b859d9f40dc3eb3106c74cd3", options);
 
     //cria uma nova instancia do objeto 'User'
@@ -116,9 +84,9 @@ $(function() {
 
 
     /*
-    -----------------------------
+    ---------------------------------------------------------------------
     EVENTS
-    -----------------------------
+    ---------------------------------------------------------------------
     */
 
     //evento slider do volume
@@ -137,30 +105,43 @@ $(function() {
 
     });
 
-	//evento de click em uma track da playlist
-	$('#container-tracks').on('click', 'span:nth-child(1)', function() {
-
-        // changePlayState($(this));
-		manSC.play(parseInt($(this).parent().attr('rel')));
-
-	});
-
-
+    //evento hover dos itens de playlist
     $('#container-tracks').on('mouseenter', 'li', function() {
 
-        $(this).find('span').first().addClass('play');
+        if (!$(this).hasClass('selected')) {
+            $(this).find('span').first().addClass('play');
+        }
 
     })
     .on('mouseleave', 'li', function() {
 
-        $(this).find('span').first().removeClass('play');
+        if (!$(this).hasClass('selected')) {
+            $(this).find('span').first().removeClass('play');
+        }
 
     });
 
-    //evento de click do botão play
-    $('.play').on('click', function() {
 
-        changePlayState($(this));
+    //evento de click no botão 'play'
+    $('#container-tracks, #playerControls').on('click', '.play', function() {
+
+        $('.play').removeClass('play').addClass('pause');
+        manSC.play(parseInt($(this).parent().attr('rel')));
+
+    });
+
+    //evento de click no botão 'pause'
+    $('#container-tracks, #playerControls').on('click', '.pause', function() {
+
+        $('.pause').removeClass('pause').addClass('play-paused');
+        manSC.playToggle();
+
+    });
+
+    //evento de click no botão 'play' depois de pausado
+    $('#container-tracks, #playerControls').on('click', '.play-paused', function() {
+
+        $('.play-paused').removeClass('play-paused').addClass('pause');
         manSC.playToggle();
 
     });

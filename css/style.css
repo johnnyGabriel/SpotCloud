@@ -5,21 +5,25 @@ body {
 	font-family: Helvetica;
 	color: rgb(216,216,216);
 }
-.checked {
-	background: url('../images/tick.png') no-repeat 0 / contain;
-}
 .selected {
 	background: rgb(38, 38, 38);
 	color: #FFF;
 }
-/*.selected:hover span:first-child {
-	background: url('../images/play-shadow.png') no-repeat 0 / contain;
-}*/
+.checked {
+	background: url('../images/tick.png') no-repeat 0 / contain;
+}
+.checked:hover {
+	background: url('../images/play.png') no-repeat 0 / contain;
+	cursor: pointer;
+}
 .play {
 	background: url('../images/play-shadow.png') no-repeat 0 / contain;
 }
 .play:hover {
 	cursor: pointer;
+	background: url('../images/play.png') no-repeat 0 / contain;
+}
+.play-paused {
 	background: url('../images/play.png') no-repeat 0 / contain;
 }
 .pause {
@@ -98,59 +102,47 @@ body {
 	height: 60%;
 }
 #container-info .playlists h2 {
-    font-size: 12px;
-	
     padding-left: 5px;
+    font-size: 12px;
 }
 #container-info .playlists ul {
-
     list-style-type: none;
-    
-
     margin: 0px 0;
-    
-
     padding: 0 15px;
-
 }
 #container-info .playlists ul:before {
 	content: attr(aria-label);
     display: inline-block;
-    
-	/* background: rgb(0, 0, 0); */
-    
 	width: calc(100% - 10px);
-    
 	padding: 2px 0px;
-    font-size: 13px;
 	cursor: pointer;
+    font-size: 13px;
 }
 #container-info .playlists ul li {
-    font-size: 12px;
-	
     padding: 2px 0 2px 10px;
     cursor: pointer;
+    font-size: 12px;
 }
 #container-info .track-info {
-	width: 100%;
 	position: absolute;
 	bottom: 53px;
+	width: 100%;
 }
 #container-info .track-info #cover {
 	width: 100%;
 	margin-bottom: 5px;
 }
 #container-info .track-info span {
-	overflow: hidden;
-	white-space: nowrap;
 	display: inline-block;
+	position: relative;
 	width: 100%;
 	margin: 0 0 0px 8px;
-	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
 }
 #container-tracks {
-	position: fixed;
 	display: inline-block;
+	position: fixed;
 	height: calc(100% - 41px);
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -160,30 +152,21 @@ body {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	/* padding-bottom: 40px; */
 }
 #container-tracks ul li {
 	padding: 5px 10px;
 	border-bottom: 1px solid rgb(46, 46, 46);
 	font-size: 13px;
-	/*background: rgb(21, 21, 21);*/
 }
 #container-tracks ul li:hover {
 	background: rgb(38, 38, 38);
 	color: #FFF;
 }
-/*#container-tracks ul li:hover span:nth-child(1){
-	background: url('../images/play-shadow.png') no-repeat 0 / contain;
-}*/
 #container-tracks ul li span:nth-child(1) {
 	display: inline-block;
 	width: 30px;
 	height: inherit;
 	margin-right: 15px;
-}
-#container-tracks ul li:hover span:nth-child(1):hover {
-	background: url('../images/play.png') no-repeat 0 / contain;
-	cursor: pointer;
 }
 #container-tracks ul li span:nth-child(2) {
 	display: inline-block;
@@ -214,20 +197,19 @@ body {
 }
 #playerControls .controls {
     height: inherit;
-	
 }
 #playerControls .left {
-	background: url('../images/previous-shadow.png') no-repeat 0 / 70%;
 	float: left;
 	margin-right: 7px;
+	background: url('../images/previous-shadow.png') no-repeat 0 / 70%;
 }
 #playerControls .left:hover {
 	background: url('../images/previous.png') no-repeat 0 / 70%;
 }
 #playerControls .right {
+	float: left;
 	margin-left: 10px;
 	background: url('../images/next-shadow.png') no-repeat 0 / 70%;
-	float: left;
 }
 #playerControls .right:hover {
 	background: url('../images/next.png') no-repeat 0 / 70%;
@@ -247,19 +229,19 @@ body {
 }
 #playerControls .master {
 	width: 100px;
-	background: #555;
 	height: 3px;
 	border-radius: 3px;
+	background: #555;
 }
 #playerControls .master div {
 	background: rgb(255, 145, 0);
 }
 #playerControls .master span {
-	background: #FFF;
 	width: 13px;
 	height: 13px;
 	border-radius: 50%;
 	outline: none;
+	background: #FFF;
 }
 #playerControls .volume #masterVolume {
 	width: 100px;
@@ -268,35 +250,9 @@ body {
 	width: 100%;
 }
 #playerControls .volume > div {
-	height: inherit;
 	float: left;
-}
-/*#playerControls .volume > div:nth-child(1) {
-	width: 100px;	
-}
-#playerControls .volume > div:nth-child(1) > div {
-	display: table-cell;
-	width: inherit;
 	height: inherit;
-	vertical-align: middle;
 }
-#playerControls .volume > div:nth-child(1) > div > span {
-	display: block;
-	width: 100%;
-	height: 3px;
-	border-radius: 3px;
-	background: rgb(255, 145, 0);
-}
-#playerControls .volume > div:nth-child(1) > div > span > span {
-	display: block;
-	position: relative;
-	top: -5px;
-	left: 90%;
-	width: 13px;
-	height: 13px;
-	background: white;
-	border-radius: 100%;
-}*/
 #playerControls .volume > div:nth-child(2) {
 	width: 20px;
 	margin-left: 6px;
@@ -310,35 +266,21 @@ body {
 }
 #playerControls .progress .bar {
 	display: inline-block;
-	height: inherit;
 	width: calc(100% - 125px);
+	height: inherit;
 }
 #playerControls .progress span.time {
-
     display: inline-block;
-
-    width: 40px;
-    
-    
-
-    /* background: gray; */
-
-    font-size: 12px;
-
-    vertical-align: top;
-
-    margin: 0px 5px 0 10px;
-
-    /* padding: 7px 0 0 0; */
-
-    top: -5px;
-
     position: relative;
-
+    top: -5px;
+    width: 40px;
+    margin: 0px 5px 0 10px;
+    vertical-align: top;
+    font-size: 12px;
 }
 .vertical-middle {
 	display: inline-block;
-	vertical-align: middle;
-	height: inherit;
 	width: 100%;
+	height: inherit;
+	vertical-align: middle;
 }
