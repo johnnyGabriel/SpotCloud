@@ -3,18 +3,22 @@ body {
 	margin: 0;
 	background: rgb(21, 21, 21);
 	font-family: Helvetica;
-	color: rgb(216,216,216);
+	color: rgb(216, 216, 216);
 }
 .selected {
 	background: rgb(38, 38, 38);
 	color: #FFF;
 }
 .checked {
+	height: inherit;
+	width: 30px;
 	background: url('../images/tick.png') no-repeat 0 / contain;
+	border: 0 !important;
+	padding: 0 !important;
 }
 .checked:hover {
-	background: url('../images/play.png') no-repeat 0 / contain;
 	cursor: pointer;
+	background: url('../images/play.png') no-repeat 0 / contain;
 }
 .play {
 	background: url('../images/play-shadow.png') no-repeat 0 / contain;
@@ -89,7 +93,9 @@ body {
 	
     height: inherit;
     left: -246.5px;
+    -moz-filter: blur(4px);
     -webkit-filter: blur(4px);
+    filter: blur(4px);
     opacity: .35;
 }
 #container-info .block-cover-shadow {
@@ -162,20 +168,26 @@ body {
 	background: rgb(38, 38, 38);
 	color: #FFF;
 }
-#container-tracks ul li span:nth-child(1) {
-	display: inline-block;
-	width: 30px;
+#container-tracks ul li > div {
 	height: inherit;
-	margin-right: 15px;
+}
+#container-tracks ul li span {
+	display: inline-block;
+	vertical-align: middle;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding-right: 15px;
+	padding: 0 15px;
 }
 #container-tracks ul li span:nth-child(2) {
-	display: inline-block;
-	height: inherit;
+	width: 400px;
 }
-#container-tracks ul li span:nth-child(2) div {
-	display: table-cell;
-	height: inherit;
-	vertical-align: middle;
+#container-tracks ul li span:nth-child(3) {
+	width: 140px;
+}
+#container-tracks ul li span:last-child {
+	border: 0;
 }
 #playerControls {
 	position: fixed;
@@ -234,7 +246,7 @@ body {
 	background: #555;
 }
 #playerControls .master div {
-	background: rgb(255, 145, 0);
+	background: rgb(255, 144, 0);
 }
 #playerControls .master span {
 	width: 13px;

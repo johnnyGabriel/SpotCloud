@@ -46,29 +46,35 @@ var ManSC = function(clientID, opts) {
 
 	function trackTimer() {
 
-		var currentTime, currentSec, currentMin, currentHr, currentTimeFormated, currentPos;
+		var currentTime, currentPos;
 
 		return setInterval(function() {
 
 			currentTime = soundMan.position;
-
-			currentSec = Math.floor((currentTime / 1000) % 60);
-			currentMin = Math.floor((currentTime / 60000) % 60);
-			currentHr = Math.floor((currentTime / 3600000) % 60);
-
             currentPos = currentTime * 100 / soundMan.durationEstimate;
 
-			currentTimeFormated = (currentHr ? currentHr+':' : '') + (currentHr ? formatTwoNumbers(currentMin) : currentMin) + ":" + formatTwoNumbers(currentSec);
-			
 			elements.timeBar.slider({ value: currentPos });
-			elements.timeCurrent.text(currentTimeFormated);
+			elements.timeCurrent.text(formatTime(currentTime));
 
 		}, 500);
 
 	}
 
-	function formatTwoNumbers(_num) {
-        return (_num.toString().length === 1 ? "0" + _num : _num);
+	function twoDecimals(_number) {
+        return (_number < 10 ? "0" + _number : _number);
+    }
+
+
+    function formatTime(_time) {
+
+    	var sec, min, hrs;
+
+    	sec = Math.floor((_time / 1000) % 60);
+    	min = Math.floor((_time / 60000) % 60);
+    	hrs = Math.floor((_time / 3600000) % 60);
+
+    	return (hrs ? hrs + ":" + twoDecimals(min) : min ) + ":" + twoDecimals(sec);
+
     }
 
     function isEmpty(obj) {
@@ -84,15 +90,8 @@ var ManSC = function(clientID, opts) {
 
 	function calcTrackEstimatedDuration() {
 
-		var duration, durationSec, durationMin, durationHrs, durationFormated;
-
 		function calcDuration() {
-			duration = soundMan.durationEstimate;
-			durationSec = Math.floor((duration / 1000) % 60);
-			durationMin = Math.floor((duration / 60000) % 60);
-			durationHrs = Math.floor((duration / 3600000) % 60);
-			durationFormated = (durationHrs ? durationHrs+':' : '') + (durationHrs ? formatTwoNumbers(durationMin) : durationMin) + ":" + formatTwoNumbers(durationSec); 
-			elements.duration.text(durationFormated);
+			elements.duration.text(formatTime(soundMan.durationEstimate));
 		}
 
 		return setInterval(function() {
@@ -234,9 +233,9 @@ var ManSC = function(clientID, opts) {
 
             html += "<li rel='" + val.id + "'>" +
                         "<span class='checked'></span>" +
-                        "<span>" +
-                            "<div>" + val.title + "</div>" +
-                        "</span>" +
+                        "<span title=\"" + val.title + "\">" + val.title + "</span>" +
+                        "<span title=\"" + val.user.username + "\">"+ val.user.username +"</span>" +
+                        "<span>"+ formatTime(val.duration) +"</span>" +
                     "</li>";
 
         });
