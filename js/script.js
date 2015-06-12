@@ -183,6 +183,26 @@ $(function() {
 
     });
 
+    //evento de click do ícone de volume
+    $('#mute').on('click', function() {
+
+        manSC.mute(function(muted) {
+
+            if (muted) {
+
+                $('#mute').css("background", "url('images/volume-muted.png') no-repeat 0 / 75%");
+                
+            } else {
+
+                $('#mute').css("background", "url('images/volume.png') no-repeat 0 / 75%");
+
+            }
+            
+
+        });
+
+    });
+
     //evento de resize da tela
     $(window).resize(function() {
         

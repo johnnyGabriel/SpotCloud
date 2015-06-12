@@ -3,6 +3,7 @@ var ManSC = function(clientID, opts) {
 	var client_ID = null,
 		elements = {},
 		soundMan = null,
+		startMuted = false,
 		currentTrack = null,
 		currentPlaylist = null,
 		viewedPlaylist = null,
@@ -28,78 +29,6 @@ var ManSC = function(clientID, opts) {
 		}
 
 		publicFunctions = this;
-
-	}
-
-	function getVolume() {
-		return elements.volume.slider('option', 'value');
-	}
-
-	function writeTrackInfoOnScreen() {
-
-		elements.name.text(currentTrack.title).attr('title', currentTrack.title);
-		elements.artist.text(currentTrack.user.username).attr('title', currentTrack.user.username);
-		elements.cover.attr('src', (currentTrack.artwork_url || "images/empty-vinil.png").replace('large', coverSize));
-		elements.coverShadow.attr('src', (currentTrack.artwork_url || "images/empty-vinil.png").replace('large', coverSize));
-
-	}
-
-	function trackTimer() {
-
-		var currentTime, currentPos;
-
-		return setInterval(function() {
-
-			currentTime = soundMan.position;
-            currentPos = currentTime * 100 / soundMan.durationEstimate;
-
-			elements.timeBar.slider({ value: currentPos });
-			elements.timeCurrent.text(formatTime(currentTime));
-
-		}, 500);
-
-	}
-
-	function twoDecimals(_number) {
-        return (_number < 10 ? "0" + _number : _number);
-    }
-
-
-    function formatTime(_time) {
-
-    	var sec, min, hrs;
-
-    	sec = Math.floor((_time / 1000) % 60);
-    	min = Math.floor((_time / 60000) % 60);
-    	hrs = Math.floor((_time / 3600000) % 60);
-
-    	return (hrs ? hrs + ":" + twoDecimals(min) : min ) + ":" + twoDecimals(sec);
-
-    }
-
-    function isEmpty(obj) {
-
-    	for (var i in obj) {
-    		if (obj.hasOwnProperty(i)) {
-    			return false;
-    		}
-    	}
-
-    	return true;
-    }
-
-	function calcTrackEstimatedDuration() {
-
-		function calcDuration() {
-			elements.duration.text(formatTime(soundMan.durationEstimate));
-		}
-
-		return setInterval(function() {
-
-			calcDuration();
-
-		}, 1000);
-
 
 	}
 
@@ -144,6 +73,11 @@ var ManSC = function(clientID, opts) {
 
 				//seta o objeto controlador de som
 				soundMan = data;
+
+				//verifica se a primeira execução deve ser muted
+				if (startMuted) {
+					soundMan.mute();
+				}
 
 				//retira o foco do item da lista gráfica da track anterior
 				if (currentTrack) {
@@ -193,6 +127,32 @@ var ManSC = function(clientID, opts) {
 
 	};
 
+	manSC.prototype.mute = function(_callback) {
+
+		if (soundMan) {
+
+			if (!soundMan.muted) {
+
+				soundMan.mute();
+				startMuted = true;
+
+			} else {
+
+				soundMan.unmute();
+				startMuted = false;
+			}
+
+		} else {
+
+			startMuted = !startMuted;
+		}
+
+		if (_callback) {
+
+			_callback(startMuted);
+		}
+
+	};
 
 	manSC.prototype.previous = function() {
 
@@ -266,6 +226,78 @@ var ManSC = function(clientID, opts) {
 		}
 
 	};
+
+	function getVolume() {
+		return elements.volume.slider('option', 'value');
+	}
+
+	function writeTrackInfoOnScreen() {
+
+		elements.name.text(currentTrack.title).attr('title', currentTrack.title);
+		elements.artist.text(currentTrack.user.username).attr('title', currentTrack.user.username);
+		elements.cover.attr('src', (currentTrack.artwork_url || "images/empty-vinil.png").replace('large', coverSize));
+		elements.coverShadow.attr('src', (currentTrack.artwork_url || "images/empty-vinil.png").replace('large', coverSize));
+
+	}
+
+	function trackTimer() {
+
+		var currentTime, currentPos;
+
+		return setInterval(function() {
+
+			currentTime = soundMan.position;
+            currentPos = currentTime * 100 / soundMan.durationEstimate;
+
+			elements.timeBar.slider({ value: currentPos });
+			elements.timeCurrent.text(formatTime(currentTime));
+
+		}, 500);
+
+	}
+
+	function twoDecimals(_number) {
+        return (_number < 10 ? "0" + _number : _number);
+    }
+
+
+    function formatTime(_time) {
+
+    	var sec, min, hrs;
+
+    	sec = Math.floor((_time / 1000) % 60);
+    	min = Math.floor((_time / 60000) % 60);
+    	hrs = Math.floor((_time / 3600000) % 60);
+
+    	return (hrs ? hrs + ":" + twoDecimals(min) : min ) + ":" + twoDecimals(sec);
+
+    }
+
+    function isEmpty(obj) {
+
+    	for (var i in obj) {
+    		if (obj.hasOwnProperty(i)) {
+    			return false;
+    		}
+    	}
+
+    	return true;
+    }
+
+	function calcTrackEstimatedDuration() {
+
+		function calcDuration() {
+			elements.duration.text(formatTime(soundMan.durationEstimate));
+		}
+
+		return setInterval(function() {
+
+			calcDuration();
+
+		}, 1000);
+
+
+	}
 
 	return new manSC();
 
