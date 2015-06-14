@@ -11,6 +11,8 @@ body {
 }
 .checked {
 	height: inherit;
+	/* max-width: 5%; */
+	/* width: 5%; */
 	width: 30px;
 	background: url('../images/tick.png') no-repeat 0 / contain;
 	border: 0 !important;
@@ -162,12 +164,19 @@ body {
 #container-tracks ul {
 	list-style-type: none;
 	margin: 0;
-	padding: 0;
+	padding: 0 15px;
+}
+.container-tracks__columns-title {
+    border: 0;
+
+	
+    font-size: 13px;
 }
 #container-tracks ul li {
-	padding: 5px 10px;
+	padding: 7px 10px;
 	border-bottom: 1px solid rgb(46, 46, 46);
 	font-size: 13px;
+	width: calc(100% - 20px);
 }
 #container-tracks ul li:hover {
 	background: rgb(38, 38, 38);
@@ -186,13 +195,30 @@ body {
 	padding: 0 15px;
 }
 #container-tracks ul li span:nth-child(2) {
-	width: 400px;
+	max-width: calc(62% - 80px);
+	width: calc(62% - 80px);
 }
 #container-tracks ul li span:nth-child(3) {
-	width: 140px;
+	max-width: calc(23% - 30px);
+	width: calc(23% - 30px);
+}
+#container-tracks ul li span:nth-child(4) {
+	border: 0;
+	max-width: calc(10% - 15px);
+	width: calc(10% - 15px);
+	text-align: right;
+	padding-right: 0;
 }
 #container-tracks ul li span:last-child {
-	border: 0;
+    max-width: calc(6% - 15px);
+	
+    width: calc(6% - 15px);
+    /* min-width: 25px; */
+    font-size: 8px;
+    letter-spacing: -1px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 0;
 }
 #playerControls {
 	position: fixed;
@@ -249,6 +275,7 @@ body {
 	height: 3px;
 	border-radius: 3px;
 	background: #555;
+	border: 0;
 }
 #playerControls .master div {
 	background: rgb(255, 144, 0);

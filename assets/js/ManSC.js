@@ -187,7 +187,13 @@ var ManSC = function(clientID, opts) {
 
 	manSC.prototype.showInPlaylistPanel = function(title, data) {
 
-		var html = '';
+		var html = "<li class='container-tracks__columns-title'>"+
+                        "<span></span>"+
+                        "<span>Name</span>"+
+                        "<span>Artist</span>"+
+                        "<span>Duration</span>"+
+                        "<span>Views</span>"+
+                    "</li>";
 
         $.each(data, function(index, val) {
 
@@ -196,6 +202,7 @@ var ManSC = function(clientID, opts) {
                         "<span title=\"" + val.title + "\">" + val.title + "</span>" +
                         "<span title=\"" + val.user.username + "\">"+ val.user.username +"</span>" +
                         "<span>"+ formatTime(val.duration) +"</span>" +
+                        "<span title='" + formatTrackCount(val.playback_count) + " views'>|||||||</span>" +
                     "</li>";
 
         });
@@ -226,6 +233,24 @@ var ManSC = function(clientID, opts) {
 		}
 
 	};
+
+    function formatTrackCount(_num) {
+
+        var numero_formatado = _num;
+        var escalas = ['', 'K', 'M', 'G'];
+        var index = 0;
+        var temp = 0;
+
+        while ((temp = parseInt(numero_formatado / 1000)) > 0) {
+
+            numero_formatado = temp;
+            index++;
+
+        }
+
+        return numero_formatado + escalas[index];
+
+    }
 
 	function getVolume() {
 		return elements.volume.slider('option', 'value');
